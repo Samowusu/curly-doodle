@@ -10,5 +10,8 @@ export default defineNuxtConfig({
   extends: ['@sidebase/core'],
   typescript: {
     shim: false
+  },
+  alias: {
+    'class-validator': 'class-validator/cjs/index.js'
   }
 })

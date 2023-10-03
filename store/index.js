@@ -1,0 +1,34 @@
+/* eslint-disable space-before-function-paren */
+/* eslint-disable comma-dangle */
+/* eslint-disable semi */
+/* eslint-disable quotes */
+import { magic } from "../plugins/magic";
+
+export const state = () => ({
+  user: null,
+  authenticated: false,
+});
+
+export const mutations = {
+  SET_USER_DATA(state, userData) {
+    state.user = userData;
+    state.authenticated = true;
+  },
+  CLEAR_USER_DATA(state) {
+    state.user = null;
+    state.authenticated = false;
+    this.$router.push("/login");
+  },
+};
+
+export const actions = {
+  async login({ commit }, email) {
+    await magic.auth.loginWithMagicLink(email);
+    const metadata = await magic.user.getMetadata();
+    commit("SET_USER_DATA", metadata);
+  },
+  async logout({ commit }) {
+    await magic.user.logout();
+    commit("CLEAR_USER_DATA");
+  },
+};

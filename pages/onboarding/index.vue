@@ -1,4 +1,7 @@
 <script setup>
+definePageMeta({
+  middleware: 'magicauth'
+})
 const userState = useState('user', () => {
   return { name: '', organization: '' }
 })
