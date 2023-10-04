@@ -22,7 +22,7 @@ const emits = defineEmits(['changeInput'])
       class="p-2 border w-100 rounded"
       :placeholder="placeholder"
       :name="name"
-      @input="emits('changeInput', state, name)"
+      @input="emits('changeInput', state)"
     >
   </div>
 </template>
