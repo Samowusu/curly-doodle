@@ -14,7 +14,7 @@ const handleChangeInput = (data, name) => {
   <div class=" flex justify-center">
     <div class="flex flex-col w-1/2 items-center mt-32 gap-7">
       <h1 class="text-cyan-500">
-        Sign up with email and password
+        Sign up with email
       </h1>
       <form class="w-full  items-center flex flex-col gap-5">
         <CustomInput
@@ -23,13 +23,13 @@ const handleChangeInput = (data, name) => {
           name="email"
           @change-input="handleChangeInput"
         />
-        <CustomInput
-          title="password"
-          placeholder="Enter password..."
-          name="password"
-          @change-input="handleChangeInput"
-        />
       </form>
+      <button
+        class=" w-1/2 p-3 mt-5 rounded text-white font-bold bg-blue-500"
+        @click="() => navigateTo('/onboarding')"
+      >
+        Get magic link
+      </button>
       <button
         class=" w-1/2 p-3 mt-5 rounded text-white font-bold bg-slate-900"
       >

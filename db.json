@@ -1,0 +1,36 @@
+{
+  "users": [
+    {
+      "id": "123",
+      "name": "Sam",
+      "organizations": [
+        "321"
+      ]
+    },
+    {
+      "id": "eba30502-26b2-4ef5-8579-868948dee366",
+      "name": "Baah",
+      "organizations": [
+        "710cb485-dd6e-4d26-84b1-587202105ab0"
+      ]
+    }
+  ],
+  "organizations": [
+    {
+      "id": "321",
+      "name": "DSG",
+      "createdBy": "123",
+      "members": [
+        "123"
+      ]
+    },
+    {
+      "id": "710cb485-dd6e-4d26-84b1-587202105ab0",
+      "name": "EARLYNODE",
+      "createdBy": "eba30502-26b2-4ef5-8579-868948dee366",
+      "members": [
+        "eba30502-26b2-4ef5-8579-868948dee366"
+      ]
+    }
+  ]
+}

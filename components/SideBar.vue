@@ -5,6 +5,7 @@ defineProps({
     type: String, default: null
   }
 })
+const route = useRoute()
 </script>
 
 <template>
@@ -12,7 +13,7 @@ defineProps({
     <ul class="flex flex-col items-start gap-2 whitespace-nowrap  h-full">
       <li>
         <NuxtLink href="/home">
-          <IconHoverEffect>
+          <IconHoverEffect :active="route.path.startsWith('/home')">
             <span class="flex items-center gap-4">
               <Icon name="ic:outline-home" size="32px" />
               <span class="hidden text-lg md:inline">Home</span>
@@ -22,7 +23,7 @@ defineProps({
       </li>
       <li>
         <NuxtLink href="/members">
-          <IconHoverEffect>
+          <IconHoverEffect :active="route.path.startsWith('/members')">
             <span class="flex items-center gap-4">
               <Icon name="fa6-solid:people-line" size="32px" />
               <span class="hidden text-lg md:inline">Members</span>
@@ -33,10 +34,10 @@ defineProps({
 
       <li>
         <NuxtLink href="/profile">
-          <IconHoverEffect>
+          <IconHoverEffect :active="route.path.startsWith('/profile')">
             <span class="flex items-center gap-4">
               <Icon name="healthicons:ui-user-profile-outline" size="32px" class="fill-green-700" />
-              <span class="hidden text-lg text-green-700 md:inline">
+              <span class="hidden text-lg md:inline">
                 Profile
               </span>
             </span>
