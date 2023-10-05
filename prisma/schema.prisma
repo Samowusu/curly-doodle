@@ -11,15 +11,29 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// model User {
+//   id            String         @id @default(uuid())
+//   name          String
+//   organizations Organization[]
+// }
+
+// model Organization {
+//   id      String @id @default(uuid())
+//   userId  String
+//   name    String
+//   members User[]
+// }
+
 model User {
-  id            Int            @id @default(autoincrement())
-  name          String
+  id   String @id @default(cuid())
+  name String
+
   organizations Organization[]
 }
 
 model Organization {
-  id        Int    @id @default(autoincrement())
-  name      String
-  createdBy Int
-  members   User[]
+  id          String @id @default(cuid())
+  name        String
+  members     User[]
+  createdById String
 }

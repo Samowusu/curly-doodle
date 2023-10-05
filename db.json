@@ -13,6 +13,13 @@
       "organizations": [
         "710cb485-dd6e-4d26-84b1-587202105ab0"
       ]
+    },
+    {
+      "id": "7d352335-75e4-4f0d-97a3-fe1f8c4139d3",
+      "name": "Sam",
+      "organizations": [
+        "e8e6af21-c314-4991-9b27-8d48577f345e"
+      ]
     }
   ],
   "organizations": [
@@ -30,6 +37,14 @@
       "createdBy": "eba30502-26b2-4ef5-8579-868948dee366",
       "members": [
         "eba30502-26b2-4ef5-8579-868948dee366"
+      ]
+    },
+    {
+      "id": "e8e6af21-c314-4991-9b27-8d48577f345e",
+      "name": "DSG",
+      "createdBy": "7d352335-75e4-4f0d-97a3-fe1f8c4139d3",
+      "members": [
+        "7d352335-75e4-4f0d-97a3-fe1f8c4139d3"
       ]
     }
   ]

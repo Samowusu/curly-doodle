@@ -3,11 +3,10 @@ definePageMeta({
   layout: 'custom'
 })
 const route = useRoute()
-const profile = await useFetchUser(route.params.id)
-const organizations = await useFetchOrganizations()
 
-const userOrganizations = organizations.value.filter(org => org.members.includes(route.params.id))
-
+const { $client } = useNuxtApp()
+const user = await $client.user.getUser.useQuery({ id: route.params.id })
+console.log(user.data.value)
 const showEditModal = ref(false)
 const newName = ref('')
 
@@ -38,7 +37,7 @@ const confirmEdit = () => {
       </h2>
       <div class="bg-white p-4 rounded-lg shadow-md">
         <p class="text-gray-800 mb-2">
-          Name: {{ profile.name }}
+          Name:
         </p>
         <!-- Display other user details as needed -->
         <button
@@ -81,7 +80,7 @@ const confirmEdit = () => {
             Select an Organization
           </option>
           <option
-            v-for="organization in userOrganizations"
+            v-for="organization in organizations"
             :key="organization.id"
             :value="organization.id"
           >

@@ -3,6 +3,9 @@ import { setAbsoluteSqliteDatabaseUrlForPrisma } from './prisma/utils'
 setAbsoluteSqliteDatabaseUrlForPrisma()
 
 export default defineNuxtConfig({
+  build: {
+    transpile: ['trpc-nuxt']
+  },
   runtimeConfig: {
     version: '0.0.1'
   },

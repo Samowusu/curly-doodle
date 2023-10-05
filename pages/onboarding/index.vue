@@ -1,25 +1,24 @@
 <script setup>
 const userState = useOnboardedUser()
-const organizationState = useOrganizations()
-const { createUser, createOrganization } = useUtilities()
-
+const { $client } = useNuxtApp()
+console.log(userState.value)
 // HANDLERS
 const handleCompleteOnboarding = async () => {
-  userState.value.organizations.push(organizationState.value.id)
-  organizationState.value.createdBy = userState.value.id
-  organizationState.value.members = [userState.value.id]
+  try {
+    console.log(userState.value)
 
-  const createdUser = await useOnboardUser(userState.value)
-  await useCreateOrganization(organizationState.value)
-  const { id } = createdUser
-  navigateTo(`/profile/${id}`)
-}
-const handleCreateUser = (data) => {
-  userState.value = createUser(data)
+    const createdUser = await $client.user.createUser.mutate({ name: userState.value.name, organization: userState.value.organization })
+    console.log({ createdUser })
+    const { id } = createdUser
+    navigateTo(`/profile/${id}`)
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 
-const handleCreateOrganization = (data) => {
-  organizationState.value = createOrganization(data, null, [])
+const handleChangeInput = (data, name) => {
+  userState.value[name] = data
 }
 
 </script>
@@ -35,13 +34,13 @@ const handleCreateOrganization = (data) => {
         title="Create your user profile"
         placeholder="Enter your name..."
         name="name"
-        @change-input="handleCreateUser"
+        @change-input="handleChangeInput"
       />
       <CustomInput
         title="organization name"
         placeholder="Enter your organization..."
         name="organization"
-        @change-input="handleCreateOrganization"
+        @change-input="handleChangeInput"
       />
     </form>
     <div class="flex justify-center">

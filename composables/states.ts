@@ -1,6 +1,6 @@
 export const useOnboardedUser = () => useState('onboardedUser', () => {
   return {
-    name: '', organizations: [], id: ''
+    name: '', organization: ''
   }
 })
 
