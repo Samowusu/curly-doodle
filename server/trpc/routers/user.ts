@@ -37,9 +37,27 @@ export const userRouter = router({
       const user = await ctx.prisma.user.findUnique({
         where: {
           id: input.id
+        },
+        include: {
+          organizations: true
         }
       })
       return user
+    }
+  ),
+
+  editUser: publicProcedure.input(z.object({ id: z.string(), name: z.string() })).mutation(
+    async ({ ctx, input }) => {
+      const newName = await ctx.prisma.user.update({
+        where: {
+          id: input.id
+        },
+        data: {
+          name: input.name
+        }
+      })
+
+      return newName
     }
   )
 })

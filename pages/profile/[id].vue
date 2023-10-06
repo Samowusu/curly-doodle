@@ -4,9 +4,11 @@ definePageMeta({
 })
 const route = useRoute()
 
+// ONMOUNT
 const { $client } = useNuxtApp()
-const user = await $client.user.getUser.useQuery({ id: route.params.id })
-console.log(user.data.value)
+const { data } = await $client.user.getUser.useQuery({ id: route.params.id })
+const { organizations, name } = data.value
+
 const showEditModal = ref(false)
 const newName = ref('')
 
@@ -19,11 +21,22 @@ const handleCancelEdit = () => {
   showEditModal.value = false
 }
 
-const confirmEdit = () => {
-  profile.value.name = newName
-  handleCancelEdit()
+const confirmEdit = async () => {
+  try {
+    await $client.user.editUser.mutate({ id: route.params.id, name: newName.value })
+    /* I had to apply this hacky way of refetching data.
+    For unknown reasons, the "refresh" function from useFetch isn't working
+    as expected. I will look more into it.
+    */
+    window.location.reload(true)
+    handleCancelEdit()
+  } catch (error) {
+    console.error(error)
+    throw error
+  }
 }
 </script>
+
 <template>
   <div class="p-4">
     <h1 class="text-2xl font-semibold mb-4">
@@ -37,7 +50,7 @@ const confirmEdit = () => {
       </h2>
       <div class="bg-white p-4 rounded-lg shadow-md">
         <p class="text-gray-800 mb-2">
-          Name:
+          Name: {{ name }}
         </p>
         <!-- Display other user details as needed -->
         <button
