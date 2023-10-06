@@ -1,22 +1,36 @@
 <script setup>
-// HANDLERS
 
 import { ref } from 'vue'
+const { generateRandomToken, getNextTwentyFourHours, extractTokenFromInviteLink } = useUtilities()
 
 definePageMeta({
   layout: 'custom'
 })
 
-const inviteLink = ref('') // Store the generated invite link
+const { $client } = useNuxtApp()
+
+const generatedInviteLink = ref('') // Store the generated invite link
+const inviteLinkStatus = ref('active')
 const members = ref([{ name: 'Goe' }, { name: 'frank' }, { name: 'luffy' }]) // Store the list of organization members
 
-const generateInviteLink = () => {
-  // Generate and set the invite link logic here
-  // Update inviteLink.value with the generated link
+// HANDLERS
+const generateInviteLink = async () => {
+  const token = generateRandomToken()
+  const expiryDate = getNextTwentyFourHours()
+  const { inviteLink } = await $client.organization.createInviteLink.mutate({
+    token, expiryDate
+  })
+  console.log(inviteLink)
+  generatedInviteLink.value = inviteLink
+  inviteLinkStatus.value = 'active'
 }
 
-const deactivateInviteLink = () => {
-  // Deactivate the invite link logic here
+const deactivateInviteLink = async () => {
+  const token = extractTokenFromInviteLink(generatedInviteLink.value)
+  const deactivatedLink = await $client.organization.deactivateInviteLink.mutate({ token })
+  inviteLinkStatus.value = 'inactive'
+
+  console.log(deactivatedLink)
 }
 
 const kickMember = (member) => {
@@ -35,9 +49,12 @@ const kickMember = (member) => {
       <p class="text-gray-600">
         Generate an invite link that expires in 24 hours.
       </p>
+      <p :class="[inviteLinkStatus === 'active' ? 'text-green-500' : 'text-red-500']">
+        Invite link is {{ inviteLinkStatus }}
+      </p>
       <div class="flex mt-2">
         <input
-          v-model="inviteLink"
+          v-model="generatedInviteLink"
           class="flex-1 p-2 border rounded-l"
           placeholder="Generated Invite Link"
           readonly

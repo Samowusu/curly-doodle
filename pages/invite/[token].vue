@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+definePageMeta({
+  middleware: 'invite-link'
+})
 
 // State variables
 const inviteLink = ref('')

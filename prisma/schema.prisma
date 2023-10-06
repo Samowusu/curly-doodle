@@ -11,19 +11,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model User {
-//   id            String         @id @default(uuid())
-//   name          String
-//   organizations Organization[]
-// }
-
-// model Organization {
-//   id      String @id @default(uuid())
-//   userId  String
-//   name    String
-//   members User[]
-// }
-
 model User {
   id   String @id @default(cuid())
   name String
@@ -36,4 +23,11 @@ model Organization {
   name        String
   members     User[]
   createdById String
+}
+
+model InviteLink {
+  id         String   @id @default(cuid())
+  token      String   @unique
+  expiryDate DateTime
+  isActive   Boolean  @default(true)
 }
