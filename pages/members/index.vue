@@ -1,7 +1,7 @@
 <script setup>
 
 import { ref } from 'vue'
-const { generateRandomToken, getNextTwentyFourHours, extractTokenFromInviteLink } = useUtilities()
+const { generateRandomToken, getNextTwentyFourHours } = useUtilities()
 
 definePageMeta({
   layout: 'custom'
@@ -26,8 +26,7 @@ const generateInviteLink = async () => {
 }
 
 const deactivateInviteLink = async () => {
-  const token = extractTokenFromInviteLink(generatedInviteLink.value)
-  const deactivatedLink = await $client.organization.deactivateInviteLink.mutate({ token })
+  const deactivatedLink = await $client.organization.deactivateInviteLink.mutate()
   inviteLinkStatus.value = 'inactive'
 
   console.log(deactivatedLink)

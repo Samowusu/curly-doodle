@@ -1,7 +1,6 @@
-export default defineNuxtRouteMiddleware(async (to) => {
-  const { token } = to.params
+export default defineNuxtRouteMiddleware(async () => {
   const { $client } = useNuxtApp()
-  const { data } = await $client.organization.getInviteLink.useQuery({ token })
+  const { data } = await $client.organization.getInviteLink.useQuery()
   console.log(data.value)
   const { isActive } = data.value
   if (isActive === true) {
