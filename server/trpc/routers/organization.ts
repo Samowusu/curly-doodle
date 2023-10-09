@@ -28,7 +28,8 @@ export const organizationRouter = router({
           data: {
             token: input.token,
             expiryDate: input.expiryDate,
-            isActive: true
+            isActive: true,
+            inviteLink
           }
         })
 
@@ -57,6 +58,7 @@ export const organizationRouter = router({
         data: {
           isActive: false
         }
+
       })
       return deactivatedLink
     }

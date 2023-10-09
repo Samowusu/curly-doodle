@@ -30,4 +30,5 @@ model InviteLink {
   token      String   @unique
   expiryDate DateTime
   isActive   Boolean  @default(true)
+  inviteLink String
 }

@@ -7,27 +7,39 @@ definePageMeta({
   layout: 'custom'
 })
 
+// ONMOUNT
 const { $client } = useNuxtApp()
+const { data } = await $client.organization.getInviteLink.useQuery()
+console.log(data.value)
 
-const generatedInviteLink = ref('') // Store the generated invite link
-const inviteLinkStatus = ref('active')
+// STATE
+const generatedInviteLink = ref(data?.value?.inviteLink) // Store the generated invite link
+const inviteLinkStatus = ref(data?.value?.isActive)
 const members = ref([{ name: 'Goe' }, { name: 'frank' }, { name: 'luffy' }]) // Store the list of organization members
+
+// COMPUTED VALUES
+const inviteLinkStatusText = computed(() => {
+  return inviteLinkStatus.value ? 'active' : 'inactive'
+})
+const showInviteLinkStatusText = computed(() => {
+  return inviteLinkStatus.value === true | inviteLinkStatus.value === false
+})
 
 // HANDLERS
 const generateInviteLink = async () => {
   const token = generateRandomToken()
   const expiryDate = getNextTwentyFourHours()
-  const { inviteLink } = await $client.organization.createInviteLink.mutate({
+  const { inviteLink, createdInviteLink } = await $client.organization.createInviteLink.mutate({
     token, expiryDate
   })
   console.log(inviteLink)
   generatedInviteLink.value = inviteLink
-  inviteLinkStatus.value = 'active'
+  inviteLinkStatus.value = createdInviteLink?.isActive
 }
 
 const deactivateInviteLink = async () => {
   const deactivatedLink = await $client.organization.deactivateInviteLink.mutate()
-  inviteLinkStatus.value = 'inactive'
+  inviteLinkStatus.value = false
 
   console.log(deactivatedLink)
 }
@@ -48,8 +60,8 @@ const kickMember = (member) => {
       <p class="text-gray-600">
         Generate an invite link that expires in 24 hours.
       </p>
-      <p :class="[inviteLinkStatus === 'active' ? 'text-green-500' : 'text-red-500']">
-        Invite link is {{ inviteLinkStatus }}
+      <p v-show="showInviteLinkStatusText" :class="[inviteLinkStatus ? 'text-green-500' : 'text-red-500']">
+        Invite link is {{ inviteLinkStatusText }}
       </p>
       <div class="flex mt-2">
         <input
@@ -60,6 +72,7 @@ const kickMember = (member) => {
         >
         <button
           class="bg-blue-500 text-white p-2 rounded-r"
+          :disabled="inviteLinkStatus"
           @click="generateInviteLink"
         >
           Generate
@@ -67,6 +80,7 @@ const kickMember = (member) => {
       </div>
       <button
         class="mt-2 text-red-500 underline"
+        :disabled="!inviteLinkStatus"
         @click="deactivateInviteLink"
       >
         Deactivate Invite Link

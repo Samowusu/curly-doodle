@@ -54,6 +54,7 @@
     "@trpc/server": "^10.38.5",
     "json-server": "^0.17.4",
     "next-auth": "^4.21.1",
+    "toad-scheduler": "^3.0.0",
     "trpc-nuxt": "^0.10.12",
     "zod": "^3.22.4"
   }
