@@ -1,7 +1,8 @@
 <script setup>
 import { ref } from 'vue'
 definePageMeta({
-  middleware: 'invite-link'
+  middleware: 'invite-link',
+  auth: false
 })
 
 // State variables

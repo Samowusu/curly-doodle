@@ -77,3 +77,9 @@ content:
 *edit profile
 *view org list, switch between orgs, sign out, delete account
 -->
+
+<!-- Loading spinner in loading state.
+show errors when something goes wrong.
+*logged in but aborts the onboarding flow;when they log back in, they should be redirected to complete the onboarding flow
+ *hiding sensitive details about the profile
+*try redirecting the user to just "/profile"-->

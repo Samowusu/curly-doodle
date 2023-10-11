@@ -1,7 +1,9 @@
 <script setup>
 definePageMeta({
-  layout: 'custom'
+  layout: 'custom',
+  middleware: 'onboarding'
 })
+
 </script>
 
 <template>

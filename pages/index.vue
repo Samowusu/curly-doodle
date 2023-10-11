@@ -1,4 +1,10 @@
 <script setup>
+definePageMeta({
+  auth: {
+    unauthenticatedOnly: true,
+    navigateAuthenticatedTo: '/home'
+  }
+})
 const handleNavigateToSignUp = () => {
   navigateTo('/sign-up')
 }

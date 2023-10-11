@@ -1,16 +1,16 @@
 <script setup>
 const userState = useOnboardedUser()
 const { $client } = useNuxtApp()
+const { data } = useAuth()
 console.log(userState.value)
 // HANDLERS
 const handleCompleteOnboarding = async () => {
   try {
     console.log(userState.value)
 
-    const createdUser = await $client.user.createUser.mutate({ name: userState.value.name, organization: userState.value.organization })
+    const createdUser = await $client.user.createUser.mutate({ name: userState.value.name, organization: userState.value.organization, email: data.value.user.email })
     console.log({ createdUser })
-    const { id } = createdUser
-    navigateTo(`/profile/${id}`)
+    navigateTo('/profile')
   } catch (error) {
     console.error(error)
     throw error

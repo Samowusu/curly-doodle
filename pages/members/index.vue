@@ -1,11 +1,10 @@
 <script setup>
-
-import { ref } from 'vue'
-const { generateRandomToken, getNextTwentyFourHours } = useUtilities()
-
 definePageMeta({
-  layout: 'custom'
+  layout: 'custom',
+  middleware: 'onboarding'
 })
+
+const { generateRandomToken, getNextTwentyFourHours } = useUtilities()
 
 // ONMOUNT
 const { $client } = useNuxtApp()

@@ -1,12 +1,13 @@
 <script setup>
 definePageMeta({
-  layout: 'custom'
+  layout: 'custom',
+  middleware: 'onboarding'
 })
-const route = useRoute()
+const { signOut, data: userData } = useAuth()
 
 // ONMOUNT
 const { $client } = useNuxtApp()
-const { data } = await $client.user.getUser.useQuery({ id: route.params.id })
+const { data } = await $client.user.getUser.useQuery({ email: userData.value.user.email })
 const { organizations, name } = data.value
 
 const showEditModal = ref(false)
@@ -21,9 +22,13 @@ const handleCancelEdit = () => {
   showEditModal.value = false
 }
 
+const handleSignOutUser = async () => {
+  await signOut({ callbackUrl: '/' })
+}
+
 const confirmEdit = async () => {
   try {
-    await $client.user.editUser.mutate({ id: route.params.id, name: newName.value })
+    await $client.user.updateUser.mutate({ email: userData.value.user.email, name: newName.value })
     /* I had to apply this hacky way of refetching data.
     For unknown reasons, the "refresh" function from useFetch isn't working
     as expected. I will look more into it.
@@ -107,7 +112,7 @@ const confirmEdit = async () => {
     <div class="flex space-x-4">
       <button
         class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
-        @click="signOut"
+        @click="handleSignOutUser"
       >
         Sign Out
       </button>

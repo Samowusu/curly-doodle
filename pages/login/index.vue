@@ -1,11 +1,25 @@
 <script setup>
-const userState = useState('user', () => {
-  return { email: '', password: '' }
+definePageMeta({
+  auth: {
+    unauthenticatedOnly: true,
+    navigateAuthenticatedTo: '/home'
+  }
 })
 
+// ONMOUNT
+const { signIn } = useAuth()
+
+// const userState = useState('user', () => {
+//   return { email: '', password: '' }
+// })
+
 // HANDLERS
-const handleChangeInput = (data, name) => {
-  userState.value[name] = data
+// const handleChangeInput = (data, name) => {
+//   userState.value[name] = data
+// }
+
+const handleSignIn = async () => {
+  await signIn('github', { callbackUrl: '/home' })
 }
 
 </script>
@@ -13,7 +27,7 @@ const handleChangeInput = (data, name) => {
 <template>
   <div class=" flex justify-center">
     <div class="flex flex-col w-1/2 items-center mt-32 gap-7">
-      <h1 class="text-cyan-500">
+      <!-- <h1 class="text-cyan-500">
         Log in with email and password
       </h1>
       <form class="w-full  items-center flex flex-col gap-5">
@@ -29,9 +43,10 @@ const handleChangeInput = (data, name) => {
           name="password"
           @change-input="handleChangeInput"
         />
-      </form>
+      </form> -->
       <button
         class=" w-1/2 p-3 mt-5 rounded text-white font-bold bg-slate-900"
+        @click="handleSignIn"
       >
         Login with Github
       </button>

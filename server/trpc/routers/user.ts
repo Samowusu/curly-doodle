@@ -13,11 +13,12 @@ export const userRouter = router({
     return input.text
   }),
 
-  createUser: publicProcedure.input(z.object({ name: z.string(), organization: z.string() }))
+  createUser: publicProcedure.input(z.object({ name: z.string(), organization: z.string(), email: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const newUser = await ctx.prisma.user.create({
         data: {
           name: input.name,
+          email: input.email,
           organizations: {
             create: [
               {
@@ -32,11 +33,11 @@ export const userRouter = router({
       return newUser
     }),
 
-  getUser: publicProcedure.input(z.object({ id: z.string() })).query(
+  getUser: publicProcedure.input(z.object({ email: z.string() })).query(
     async ({ ctx, input }) => {
       const user = await ctx.prisma.user.findUnique({
         where: {
-          id: input.id
+          email: input.email
         },
         include: {
           organizations: true
@@ -46,11 +47,11 @@ export const userRouter = router({
     }
   ),
 
-  editUser: publicProcedure.input(z.object({ id: z.string(), name: z.string() })).mutation(
+  updateUser: publicProcedure.input(z.object({ email: z.string(), name: z.string() })).mutation(
     async ({ ctx, input }) => {
       const newName = await ctx.prisma.user.update({
         where: {
-          id: input.id
+          email: input.email
         },
         data: {
           name: input.name
